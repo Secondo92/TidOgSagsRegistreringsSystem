@@ -1,0 +1,27 @@
+﻿@model IEnumerable<DTO.Models.EmployeeDTO>
+
+<h2>Medarbejdere</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Navn</th>
+            <th>CPR</th>
+            <th>Afdeling</th>
+            <th>Handlinger</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Name</td>
+                <td>@employee.CprNumber</td>
+                <td>@(employee.DepartmentNumber == 1 ? "IT" : employee.DepartmentNumber == 2 ? "HR" : "Salg")</td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Action("Details", "Employee", new { cpr = employee.CprNumber })">Vis</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

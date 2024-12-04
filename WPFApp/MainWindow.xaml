@@ -1,0 +1,98 @@
+﻿<Window x:Class="WPFApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Time Registration System" Height="600" Width="1000">
+    <Grid>
+        <TabControl>
+            <!-- Medarbejdere -->
+            <TabItem Header="Medarbejdere">
+                <StackPanel Margin="10">
+                    <TextBlock Text="CPR-nummer:" Margin="5" />
+                    <TextBox x:Name="CprTextBox" Margin="5" />
+
+                    <TextBlock Text="Navn:" Margin="5" />
+                    <TextBox x:Name="NameTextBox" Margin="5" />
+
+                    <TextBlock Text="Afdeling:" Margin="5" />
+                    <ComboBox x:Name="DepartmentDropDown" Margin="5">
+                        <ComboBoxItem Content="IT" />
+                        <ComboBoxItem Content="HR" />
+                        <ComboBoxItem Content="Sales" />
+                    </ComboBox>
+
+                    <Button Content="Tilføj Medarbejder" Click="AddEmployee_Click" Margin="5"/>
+                    <TextBlock Text="Medarbejderliste:" Margin="10" />
+                    <ListBox ItemsSource="{Binding Employees}" DisplayMemberPath="Name" Margin="5" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- Timeregistreringer -->
+            <TabItem Header="Timeregistrering">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Vælg Medarbejder:" Margin="5" />
+                    <ComboBox x:Name="EmployeeDropDown" DisplayMemberPath="Name" Margin="5" />
+
+                    <TextBlock Text="Vælg Sag:" Margin="5" />
+                    <ComboBox x:Name="CaseDropDown" DisplayMemberPath="Headline" Margin="5" />
+
+                    <TextBlock Text="Starttid (yyyy-MM-dd HH:mm:ss):" Margin="5" />
+                    <TextBox x:Name="StartTimeTextBox" Margin="5" />
+
+                    <TextBlock Text="Sluttid (yyyy-MM-dd HH:mm:ss):" Margin="5" />
+                    <TextBox x:Name="EndTimeTextBox" Margin="5" />
+
+                    <Button Content="Tilføj Timeregistrering" Click="AddTimeRegistration_Click" Margin="5"/>
+                    <TextBlock Text="Timeregistreringsliste:" Margin="10" />
+                    <ListBox ItemsSource="{Binding TimeRegistrations}" DisplayMemberPath="EmployeeId" Margin="5" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- Oversigt -->
+            <TabItem Header="Oversigt">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Vælg Medarbejder:" Margin="5" />
+                    <ComboBox x:Name="OverviewEmployeeDropDown" DisplayMemberPath="Name" Margin="5" />
+
+                    <Button Content="Vis Per Uge" Click="ShowWeeklyReport_Click" Margin="5"/>
+                    <Button Content="Vis Per Måned" Click="ShowMonthlyReport_Click" Margin="5"/>
+                    <Button Content="Vis Total" Click="ShowTotalReport_Click" Margin="5"/>
+
+                    <TextBlock Text="Rapportvisning:" Margin="10" />
+                    <ListView x:Name="ReportListView" Margin="5">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Periode" DisplayMemberBinding="{Binding Period}" />
+                                <GridViewColumn Header="Timer" DisplayMemberBinding="{Binding TotalHours}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Sager -->
+            <TabItem Header="Sager">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Sagsnummer:" Margin="5" />
+                    <TextBox x:Name="CaseNumberTextBox" Margin="5" />
+
+                    <TextBlock Text="Overskrift:" Margin="5" />
+                    <TextBox x:Name="HeadlineTextBox" Margin="5" />
+
+                    <TextBlock Text="Beskrivelse:" Margin="5" />
+                    <TextBox x:Name="DescriptionTextBox" Margin="5" />
+
+                    <TextBlock Text="Afdeling:" Margin="5" />
+                    <ComboBox x:Name="CaseDepartmentDropDown" Margin="5">
+                        <ComboBoxItem Content="IT" />
+                        <ComboBoxItem Content="HR" />
+                        <ComboBoxItem Content="Sales" />
+                    </ComboBox>
+
+                    <Button Content="Tilføj Sag" Click="AddCase_Click" Margin="5"/>
+                    <TextBlock Text="Sagliste:" Margin="10" />
+                    <ListBox ItemsSource="{Binding Cases}" DisplayMemberPath="Headline" Margin="5" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

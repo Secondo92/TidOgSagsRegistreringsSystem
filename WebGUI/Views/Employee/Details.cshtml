@@ -1,0 +1,48 @@
+﻿@model DTO.Models.EmployeeDTO
+@{
+    ViewBag.Title = "Detaljer for " + Model.Name;
+}
+
+<h2>Tidsregistrering for @Model.Name</h2>
+<p>CPR: @Model.CprNumber</p>
+<p>Afdeling: @(Model.DepartmentNumber == 1 ? "IT" : Model.DepartmentNumber == 2 ? "HR" : "Salg")</p>
+
+<h3>Registrér Tid</h3>
+@using (Html.BeginForm("RegisterTime", "Employee", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.CprNumber)
+    <div>
+        <label for="StartTime">Starttid</label>
+        @Html.TextBox("StartTime", "", new { @type = "datetime-local", @class = "form-control" })
+    </div>
+    <div>
+        <label for="EndTime">Sluttid</label>
+        @Html.TextBox("EndTime", "", new { @type = "datetime-local", @class = "form-control" })
+    </div>
+    <div>
+        <label for="CaseNumber">Vælg Sag</label>
+        @Html.DropDownList("CaseNumber", (SelectList)ViewBag.Cases, "Vælg en sag", new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-success">Gem Tidsregistrering</button>
+}
+
+<h3>Tidligere Registreringer</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Starttid</th>
+            <th>Sluttid</th>
+            <th>Varighed</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var registration in Model.TimeRegistrations)
+        {
+            <tr>
+                <td>@registration.StartTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@registration.EndTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@(registration.EndTime - registration.StartTime)</td>
+            </tr>
+        }
+    </tbody>
+</table>

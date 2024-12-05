@@ -8,18 +8,18 @@ namespace DAL.Models
         public int CaseNumber { get; set; }
         public string Headline { get; set; }
         public string Description { get; set; }
-        public int DepartmentNumber { get; set; }
+        public string DepartmentName { get; set; }
         public Case()
         {
 
         }
 
-        public Case(int caseNumber, string headline, string description, int departmentNumber)
+        public Case(int caseNumber, string headline, string description, string departmentName)
         {
             CaseNumber = caseNumber;
             Headline = headline;
             Description = description;
-            DepartmentNumber = departmentNumber;
+            DepartmentName = departmentName;
         }
 
         public Case(int caseNumber, string headline, string description)

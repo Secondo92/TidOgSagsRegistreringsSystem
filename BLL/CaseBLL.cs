@@ -9,9 +9,9 @@ namespace BLL
     public class CaseBLL
     {
         // Opret en ny sag
-        public static CaseDTO CreateCase(int caseNumber, string headline, string description, int departmentNumber)
+        public static CaseDTO CreateCase(int caseNumber, string headline, string description, string departmentName)
         {
-            var newCase = new CaseDTO(caseNumber, headline, description, departmentNumber);
+            var newCase = new CaseDTO(caseNumber, headline, description, departmentName);
             return CaseRepository.AddCase(newCase);
         }
 
@@ -23,7 +23,7 @@ namespace BLL
 
         // Opdater en eksisterende sag
         public static void UpdateCase(CaseDTO caseDTO)
-        {
+        { 
             CaseRepository.UpdateCase(caseDTO);
         }
 
@@ -45,5 +45,13 @@ namespace BLL
             var cases = CaseRepository.GetCases();
             return cases.FirstOrDefault(c => c.Headline == name);
         }
+
+        public static CaseDTO GetCaseById(int caseId)
+        {
+            var cases = CaseRepository.GetCases();
+            return cases.FirstOrDefault(c => c.CaseNumber == caseId);
+        }
+
+
     }
 }

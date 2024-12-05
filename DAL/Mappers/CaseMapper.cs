@@ -17,7 +17,7 @@ namespace DAL.Mappers
                 return null;
             }
 
-            CaseDTO caseDTO = new CaseDTO(Case.CaseNumber, Case.Headline, Case.Description, Case.DepartmentNumber);
+            CaseDTO caseDTO = new CaseDTO(Case.CaseNumber, Case.Headline, Case.Description, Case.DepartmentName);
 
             return caseDTO;
         }
@@ -29,7 +29,7 @@ namespace DAL.Mappers
                 return null;
             }
 
-            Case Case = new Case(caseDTO.CaseNumber, caseDTO.Headline, caseDTO.Description, caseDTO.DepartmentNumber);
+            Case Case = new Case(caseDTO.CaseNumber, caseDTO.Headline, caseDTO.Description, caseDTO.DepartmentName);
 
             return Case;
         }

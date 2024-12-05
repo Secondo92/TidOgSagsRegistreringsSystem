@@ -1,8 +1,10 @@
 ﻿using BLL;
+using DAL.Models;
 using DTO.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WPFApp
 {
@@ -10,7 +12,6 @@ namespace WPFApp
     {
         public ObservableCollection<EmployeeDTO> Employees { get; set; } = new ObservableCollection<EmployeeDTO>();
         public ObservableCollection<CaseDTO> Cases { get; set; } = new ObservableCollection<CaseDTO>();
-        public ObservableCollection<TimeRegistrationDTO> TimeRegistrations { get; set; } = new ObservableCollection<TimeRegistrationDTO>();
 
         public MainWindow()
         {
@@ -24,9 +25,7 @@ namespace WPFApp
             Cases = new ObservableCollection<CaseDTO>(CaseBLL.GetAllCases());
             DataContext = this;
 
-            EmployeeDropDown.ItemsSource = Employees;
             OverviewEmployeeDropDown.ItemsSource = Employees;
-            CaseDropDown.ItemsSource = Cases;
         }
 
         private void AddEmployee_Click(object sender, RoutedEventArgs e)
@@ -69,56 +68,29 @@ namespace WPFApp
             }
         }
 
-
-        private void AddTimeRegistration_Click(object sender, RoutedEventArgs e)
-        {
-            if (EmployeeDropDown.SelectedItem == null)
-            {
-                MessageBox.Show("Please select an employee.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (CaseDropDown.SelectedItem == null)
-            {
-                MessageBox.Show("Please select a case.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            var timeRegistration = new TimeRegistrationDTO
-            {
-                StartTime = DateTime.Parse(StartTimeTextBox.Text),
-                EndTime = DateTime.Parse(EndTimeTextBox.Text),
-                EmployeeId = ((EmployeeDTO)EmployeeDropDown.SelectedItem)?.CprNumber,
-                CaseNumber = ((CaseDTO)CaseDropDown.SelectedItem)?.CaseNumber
-            };
-
-            TimeRegistrationBLL.CreateTimeRegistration(timeRegistration);
-            TimeRegistrations.Add(timeRegistration);
-        }
-
         private void AddCase_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(CaseNumberTextBox.Text))
             {
-                MessageBox.Show("Case number must not be empty.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Sagsnummer må ikke være tomt.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(HeadlineTextBox.Text))
             {
-                MessageBox.Show("Headline must not be empty.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Overskrift må ikke være tom.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(DescriptionTextBox.Text))
             {
-                MessageBox.Show("Description must not be empty.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Beskrivelse må ikke være tom.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (CaseDepartmentDropDown.SelectedIndex < 0)
             {
-                MessageBox.Show("Please select a valid department.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vælg en gyldig afdeling.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -129,17 +101,17 @@ namespace WPFApp
                     CaseNumber = int.Parse(CaseNumberTextBox.Text),
                     Headline = HeadlineTextBox.Text,
                     Description = DescriptionTextBox.Text,
-                    DepartmentNumber = CaseDepartmentDropDown.SelectedIndex + 1
+                    DepartmentName = CaseDepartmentDropDown.Text
                 };
 
                 CaseBLL.CreateCase(caseItem);
                 LoadData();
 
-                MessageBox.Show("Case added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Sag er blevet tilføjet", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}\n{ex.InnerException?.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Der opståd en fejl: {ex.Message}\n{ex.InnerException?.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -153,7 +125,7 @@ namespace WPFApp
             }
             else
             {
-                MessageBox.Show("Please select an employee from the dropdown.");
+                MessageBox.Show("Vælg venligst en medarbejder fra listen.");
             }
         }
 
@@ -168,7 +140,30 @@ namespace WPFApp
             }
             else
             {
-                MessageBox.Show("Please select an employee from the dropdown.");
+                MessageBox.Show("Vælg venligst en medarbejder fra listen.");
+            }
+        }
+
+        private void OpenEditCaseWindow_Click(object sender, RoutedEventArgs e)
+        {
+
+            var button = sender as Button;
+            var selectedCase = button?.Tag as CaseDTO;
+
+            if (selectedCase == null)
+            {
+                MessageBox.Show("Kunne ikke finde den valgte case.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var editCaseWindow = new EditCaseWindow(selectedCase.CaseNumber);
+            if (editCaseWindow.ShowDialog() == true)
+            {;
+                selectedCase.Headline = editCaseWindow.CurrentCase.Headline;
+                selectedCase.Description = editCaseWindow.CurrentCase.Description;
+
+                Cases = new ObservableCollection<CaseDTO>(Cases);
+                DataContext = this;
             }
         }
 
@@ -182,9 +177,8 @@ namespace WPFApp
             }
             else
             {
-                MessageBox.Show("Please select an employee from the dropdown.");
+                MessageBox.Show("Vælg venligst en medarbejder fra listen.");
             }
         }
-
     }
 }

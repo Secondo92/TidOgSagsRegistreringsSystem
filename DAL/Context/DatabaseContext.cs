@@ -13,7 +13,6 @@ namespace DAL.Context
     {
         public DatabaseContext() : base("TidsRegistrering") { }
         public DbSet<Case> Cases { get; set; }
-        public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<TimeRegistration> TimeRegistrations { get; set; }

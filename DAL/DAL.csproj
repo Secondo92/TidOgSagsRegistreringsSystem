@@ -72,7 +72,6 @@
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Context\DbInitializer.cs" />
     <Compile Include="Mappers\CaseMapper.cs" />
-    <Compile Include="Mappers\CompanyMapper.cs" />
     <Compile Include="Mappers\DepartmentMapper.cs" />
     <Compile Include="Mappers\EmployeeMapper.cs" />
     <Compile Include="Mappers\TimeRegistrationMapper.cs" />
@@ -96,15 +95,21 @@
     <Compile Include="Migrations\202412041158176_LavetDepartmentNumberTilDepartmentName.Designer.cs">
       <DependentUpon>202412041158176_LavetDepartmentNumberTilDepartmentName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412051947035_ChangeCaseNumberToCaseName.cs" />
+    <Compile Include="Migrations\202412051947035_ChangeCaseNumberToCaseName.Designer.cs">
+      <DependentUpon>202412051947035_ChangeCaseNumberToCaseName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412052015476_RemovedCompany.cs" />
+    <Compile Include="Migrations\202412052015476_RemovedCompany.Designer.cs">
+      <DependentUpon>202412052015476_RemovedCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Case.cs" />
-    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\TimeRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CaseRepository.cs" />
-    <Compile Include="Repository\CompanyRepository.cs" />
     <Compile Include="Repository\DepartmentRepository.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Repository\TimeRegistrationRepository.cs" />
@@ -192,6 +197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412041158176_LavetDepartmentNumberTilDepartmentName.resx">
       <DependentUpon>202412041158176_LavetDepartmentNumberTilDepartmentName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412051947035_ChangeCaseNumberToCaseName.resx">
+      <DependentUpon>202412051947035_ChangeCaseNumberToCaseName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412052015476_RemovedCompany.resx">
+      <DependentUpon>202412052015476_RemovedCompany.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

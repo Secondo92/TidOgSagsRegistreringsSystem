@@ -1,64 +1,121 @@
 ﻿<Window x:Class="WPFApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Time Registration System" Height="600" Width="1000">
+        Title="Time Registration System" Height="400" Width="600">
     <Grid>
         <TabControl>
             <!-- Medarbejdere -->
             <TabItem Header="Medarbejdere">
-                <StackPanel Margin="10">
-                    <TextBlock Text="CPR-nummer:" Margin="5" />
-                    <TextBox x:Name="CprTextBox" Margin="5" />
+                <Grid Margin="10">
+                    <!-- Define Rows and Columns -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Navn:" Margin="5" />
-                    <TextBox x:Name="NameTextBox" Margin="5" />
+                    <!-- CPR-nummer -->
+                    <TextBlock Text="CPR-nummer:" Margin="5" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CprTextBox" Margin="5" Grid.Row="0" Grid.Column="1" Width="200"/>
 
-                    <TextBlock Text="Afdeling:" Margin="5" />
-                    <ComboBox x:Name="DepartmentDropDown" Margin="5">
+                    <!-- Navn -->
+                    <TextBlock Text="Navn:" Margin="5" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="NameTextBox" Margin="5" Grid.Row="1" Grid.Column="1" Width="200"/>
+
+                    <!-- Afdeling -->
+                    <TextBlock Text="Afdeling:" Margin="5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="DepartmentDropDown" Margin="5" Grid.Row="2" Grid.Column="1" Width="200">
                         <ComboBoxItem Content="IT" />
                         <ComboBoxItem Content="HR" />
                         <ComboBoxItem Content="Sales" />
                     </ComboBox>
 
-                    <Button Content="Tilføj Medarbejder" Click="AddEmployee_Click" Margin="5"/>
-                    <TextBlock Text="Medarbejderliste:" Margin="10" />
-                    <ListBox ItemsSource="{Binding Employees}" DisplayMemberPath="Name" Margin="5" />
-                </StackPanel>
-            </TabItem>
+                    <!-- Tilføj Medarbejder Button -->
+                    <Button Content="Tilføj Medarbejder" Click="AddEmployee_Click" Margin="5" Grid.Row="3" Grid.Column="1" Width="150"/>
 
-            <!-- Timeregistreringer -->
-            <TabItem Header="Timeregistrering">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Vælg Medarbejder:" Margin="5" />
-                    <ComboBox x:Name="EmployeeDropDown" DisplayMemberPath="Name" Margin="5" />
+                    <!-- Employee List -->
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Text="Vælg Sag:" Margin="5" />
-                    <ComboBox x:Name="CaseDropDown" DisplayMemberPath="Headline" Margin="5" />
+                        <!-- Headers -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="100" />
 
-                    <TextBlock Text="Starttid (yyyy-MM-dd HH:mm:ss):" Margin="5" />
-                    <TextBox x:Name="StartTimeTextBox" Margin="5" />
+                            </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Sluttid (yyyy-MM-dd HH:mm:ss):" Margin="5" />
-                    <TextBox x:Name="EndTimeTextBox" Margin="5" />
+                            <TextBlock Text="Navn" FontWeight="Bold" Margin="5" Grid.Column="0" />
+                            <TextBlock Text="Initialer" FontWeight="Bold" Margin="5" Grid.Column="1" />
+                            <TextBlock Text="CPR-nummer" FontWeight="Bold" Margin="5" Grid.Column="2" />
+                            <TextBlock Text="Afdeling" FontWeight="Bold" Margin="5" Grid.Column="3" />
 
-                    <Button Content="Tilføj Timeregistrering" Click="AddTimeRegistration_Click" Margin="5"/>
-                    <TextBlock Text="Timeregistreringsliste:" Margin="10" />
-                    <ListBox ItemsSource="{Binding TimeRegistrations}" DisplayMemberPath="EmployeeId" Margin="5" />
-                </StackPanel>
+                        </Grid>
+
+                        <ListBox ItemsSource="{Binding Employees}" Grid.Row="1" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="100" />
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Name}" Margin="0" Grid.Column="0" />
+                                        <TextBlock Text="{Binding Initials}" Margin="0" Grid.Column="1" />
+                                        <TextBlock Text="{Binding CprNumber}" Margin="0" Grid.Column="2" />
+                                        <TextBlock Text="{Binding DepartmentName}" Margin="0" Grid.Column="3" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                </Grid>
             </TabItem>
 
             <!-- Oversigt -->
             <TabItem Header="Oversigt">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Vælg Medarbejder:" Margin="5" />
-                    <ComboBox x:Name="OverviewEmployeeDropDown" DisplayMemberPath="Name" Margin="5" />
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Button Content="Vis Per Uge" Click="ShowWeeklyReport_Click" Margin="5"/>
-                    <Button Content="Vis Per Måned" Click="ShowMonthlyReport_Click" Margin="5"/>
-                    <Button Content="Vis Total" Click="ShowTotalReport_Click" Margin="5"/>
+                    <!-- Vælg Medarbejder -->
+                    <TextBlock Text="Vælg Medarbejder:" Margin="5" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="OverviewEmployeeDropDown" DisplayMemberPath="Name" Margin="5" Grid.Row="0" Grid.Column="1" Width="200"/>
 
-                    <TextBlock Text="Rapportvisning:" Margin="10" />
-                    <ListView x:Name="ReportListView" Margin="5">
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Button Content="Vis Per Uge" Click="ShowWeeklyReport_Click" Margin="5" Width="100"/>
+                        <Button Content="Vis Per Måned" Click="ShowMonthlyReport_Click" Margin="5" Width="100"/>
+                        <Button Content="Vis Total" Click="ShowTotalReport_Click" Margin="5" Width="100"/>
+                    </StackPanel>
+
+                    <!-- Rapportvisning -->
+                    <TextBlock Text="Rapportvisning:" Margin="10" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <ListView x:Name="ReportListView" Margin="5" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Periode" DisplayMemberBinding="{Binding Period}" />
@@ -66,32 +123,99 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
             <!-- Sager -->
             <TabItem Header="Sager">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Sagsnummer:" Margin="5" />
-                    <TextBox x:Name="CaseNumberTextBox" Margin="5" />
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Overskrift:" Margin="5" />
-                    <TextBox x:Name="HeadlineTextBox" Margin="5" />
+                    <!-- Sagsnummer -->
+                    <TextBlock Text="Sagsnummer:" Margin="5" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CaseNumberTextBox" Margin="5" Grid.Row="0" Grid.Column="1" Width="200"/>
 
-                    <TextBlock Text="Beskrivelse:" Margin="5" />
-                    <TextBox x:Name="DescriptionTextBox" Margin="5" />
+                    <!-- Overskrift -->
+                    <TextBlock Text="Overskrift:" Margin="5" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="HeadlineTextBox" Margin="5" Grid.Row="1" Grid.Column="1" Width="200"/>
 
-                    <TextBlock Text="Afdeling:" Margin="5" />
-                    <ComboBox x:Name="CaseDepartmentDropDown" Margin="5">
+                    <!-- Beskrivelse -->
+                    <TextBlock Text="Beskrivelse:" Margin="5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DescriptionTextBox" Margin="5" Grid.Row="2" Grid.Column="1" Width="200"/>
+
+                    <!-- Afdeling -->
+                    <TextBlock Text="Afdeling:" Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="CaseDepartmentDropDown" Margin="5" Grid.Row="3" Grid.Column="1" Width="200">
                         <ComboBoxItem Content="IT" />
                         <ComboBoxItem Content="HR" />
                         <ComboBoxItem Content="Sales" />
                     </ComboBox>
 
-                    <Button Content="Tilføj Sag" Click="AddCase_Click" Margin="5"/>
-                    <TextBlock Text="Sagliste:" Margin="10" />
-                    <ListBox ItemsSource="{Binding Cases}" DisplayMemberPath="Headline" Margin="5" />
-                </StackPanel>
+                    <!-- Tilføj Sag Button -->
+                    <Button Content="Tilføj Sag" Click="AddCase_Click" Margin="5" Grid.Row="4" Grid.Column="1" Width="100"/>
+
+                    <!-- Sagliste -->
+                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Sagsnummer" FontWeight="Bold" Margin="5" Grid.Column="0"/>
+                            <TextBlock Text="Overskrift" FontWeight="Bold" Margin="5" Grid.Column="1"/>
+                            <TextBlock Text="Afdeling" FontWeight="Bold" Margin="5" Grid.Column="2"/>
+                        </Grid>
+
+                        <!-- ListBox med sagdata -->
+                        <ListBox ItemsSource="{Binding Cases}" Grid.Row="1" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="Auto"/>
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding CaseNumber}" Margin="5" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Headline}" Margin="5" Grid.Column="1"/>
+                                        <TextBlock Text="{Binding DepartmentName}" Margin="5" Grid.Column="2"/>
+
+                                        <!-- Rediger-knap -->
+                                        <Button Content="Rediger" 
+                            Click="OpenEditCaseWindow_Click" 
+                            Tag="{Binding}" 
+                            Width="75" 
+                            Margin="5" 
+                            Grid.Column="3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

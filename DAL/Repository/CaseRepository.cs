@@ -50,7 +50,7 @@ namespace DAL.Repository
                 {
                     caseEntity.Headline = caseDTO.Headline;
                     caseEntity.Description = caseDTO.Description;
-                    caseEntity.DepartmentNumber = caseDTO.DepartmentNumber;
+                    caseEntity.DepartmentName = caseDTO.DepartmentName;
                     context.SaveChanges();
                 }
             }

@@ -10,10 +10,10 @@ namespace WPFApp
         {
             base.OnStartup(e);
 
-            // Sæt en database-initializer til at oprette databasen automatisk
+            // sdætter en database-initializer til at oprette databasen automatisk
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DatabaseContext>());
 
-            // Initialiser databasen
+            // initialiser databasen
             using (var context = new DatabaseContext())
             {
                 context.Database.Initialize(force: true);

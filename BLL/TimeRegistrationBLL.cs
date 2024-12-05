@@ -15,6 +15,12 @@ namespace BLL
             return TimeRegistrationRepository.AddTimeRegistration(newTimeRegistration);
         }
 
+        public static TimeRegistrationDTO CreateTimeRegistration(int id, DateTime startTime, DateTime endTime, string employeeId)
+        {
+            var newTimeRegistration = new TimeRegistrationDTO(id, startTime, endTime, employeeId, null);
+            return TimeRegistrationRepository.AddTimeRegistration(newTimeRegistration);
+        }
+
         // Slet en tidsregistrering
         public static void DeleteTimeRegistration(int id)
         {
@@ -36,7 +42,7 @@ namespace BLL
         public static void RegisterTime(TimeRegistrationDTO timeRegistration)
         {
             if (timeRegistration.EndTime <= timeRegistration.StartTime)
-                throw new Exception("End time must be after start time.");
+                throw new Exception("Sluttid skal komme efter starttid.");
 
             TimeRegistrationRepository.AddTimeRegistration(timeRegistration);
         }
@@ -52,7 +58,7 @@ namespace BLL
                     DayOfWeek.Monday))
                 .Select(g => new TimeReportDTO
                 {
-                    Period = $"Week {g.Key}",
+                    Period = $"Uge {g.Key}",
                     TotalHours = g.Sum(r => (r.EndTime - r.StartTime).TotalHours)
                 })
                 .ToList();

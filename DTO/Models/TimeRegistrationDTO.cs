@@ -17,6 +17,7 @@ namespace DTO.Models
         {
 
         }
+
         public TimeRegistrationDTO(int timeRegistrationId, DateTime startTime, DateTime endTime, string employeeId, int? caseNumber)
         {
             TimeRegistrationId = timeRegistrationId;
